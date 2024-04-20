@@ -1,0 +1,89 @@
+class Student:
+    def __init__(self, name, roll_number, age):
+        self.name = name
+        self.roll_number = roll_number
+        self.age = age
+        self.marks = {}
+
+    def add_marks(self, subject, mark):
+        self.marks[subject] = mark
+
+    def get_average_marks(self):
+        if not self.marks:
+            return "No marks available."
+        total_marks = sum(self.marks.values())
+        return total_marks / len(self.marks)
+
+    def __str__(self):
+        return f"Name: {self.name}, Roll Number: {self.roll_number}, Age: {self.age}"
+
+
+class StudentManagementSystem:
+    def __init__(self):
+        self.students = {}
+
+    def add_student(self, student):
+        self.students[student.roll_number] = student
+
+    def remove_student(self, roll_number):
+        if roll_number in self.students:
+            del self.students[roll_number]
+            print(f"Student with roll number {roll_number} removed successfully.")
+        else:
+            print("Student not found.")
+
+    def display_student_info(self, roll_number):
+        if roll_number in self.students:
+            print(self.students[roll_number])
+        else:
+            print("Student not found.")
+
+    def display_all_students(self):
+        if not self.students:
+            print("No students found.")
+        else:
+            for roll_number, student in self.students.items():
+                print(f"Roll Number: {roll_number}, {student}")
+
+    def add_marks_to_student(self, roll_number, subject, mark):
+        if roll_number in self.students:
+            self.students[roll_number].add_marks(subject, mark)
+            print(f"Marks added for {subject}.")
+        else:
+            print("Student not found.")
+
+    def get_student_average_marks(self, roll_number):
+        if roll_number in self.students:
+            average_marks = self.students[roll_number].get_average_marks()
+            print(f"Average marks: {average_marks}")
+        else:
+            print("Student not found.")
+
+
+# Sample usage:
+if __name__ == "__main__":
+    sms = StudentManagementSystem()
+
+    # Adding students
+    student1 = Student("Isha", "S001", 20)
+    student2 = Student("Nikita", "S002", 21)
+
+    sms.add_student(student1)
+    sms.add_student(student2)
+
+    # Displaying all students
+    sms.display_all_students()
+
+    # Adding marks to students
+    sms.add_marks_to_student("S001", "Math", 90)
+    sms.add_marks_to_student("S001", "Physics", 85)
+    sms.add_marks_to_student("S002", "Math", 95)
+
+    # Displaying average marks of a student
+    sms.get_student_average_marks("S001")
+
+    # Removing a student
+    sms.remove_student("S002")
+
+    # Displaying all students after removal
+    sms.display_all_students()
